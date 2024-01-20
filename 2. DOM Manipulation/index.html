@@ -23,15 +23,29 @@
         // Checkpoint 2.1 What are the other ways to select elements in the DOM?
         // Answer: 
         
+        //Several ways in selecting elements in the DOM would through the ID which is the simplest form of having to select single DOM element. Class enables you select multiple DOM elements that share a common attribute. Tag Name is similar to Class, however it specifically uses Tag itself (div, p, h1, and etc). Query Selector selects one item or multiple with the same class name. With some practicalities of an ID, class, or an attribute. Then selects the first one. 
+
         // Todo 2.2 Set the text of the first list item to "<>"
+        
+        const listItem = document.getElementsByTagName("li")
+        listItem[0].innerText = "<>"
 
         // Checkpoint 3.2 What is the difference between innerText, textContent, and innerHTML. When should you use one over the other
         // Answer:
+        
+        //The difference being that innerText enables you to view an element without formatting it. TextContent ignores all html tags and only returns the text. And innerHTML allows you to read both the html tags and text content.
 
         // Todo 2.3 Create another list item, and add it as a child of the unordered list
         // Relevant Link: https://developer.mozilla.org/en-US/docs/Web/API/Document_object_model/How_to_create_a_DOM_tree
 
+        const create = document.createElement("li")
+        create.innerHTML = "Ethics"
+        document.getElementById('subjects-taken').appendChild(create)
+
         // Todo 2.4 Set the id attribute of the list item you created to "favorite-subject". Set the class of the list item to "newly-created"
+        
+        const idAtt = document.querySelector(".subjects-taken")
+        idAtt.setAttribute('newly-created', 'subjects-taken')
 
         // Todo 2.5 Delete the second list item in the unordered list
 
