@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Document</title>    
 
     <style>
         .grandparent{
@@ -29,12 +29,56 @@
 
 <!-- Todo 3.2a Create a button with the text "Call inline event handler". Add an inline event handler that logs "From inline event hanlder" when the button is clicked -->
 <!-- Relevant Link: https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events#inline_event_handlers_%E2%80%94_dont_use_these See other event listener mechanisms section -->
-<button>Call inline event handler</button>
-
+<button onclick="ineventHandle()">Call inline event handler</button>
+<script>
+    function ineventHandle() {
+        console.log("From inline event hanlder")
+    }
+</script>
 <!-- Todo 3.3a Create a button with the text "Call addEventListener" -->
-<button>Call addEventListener</button>
+
+<button id="beventHandle">Call addEventListener</button>
 
 <!-- Todo 3.4a Create a form that accepts the first name and last name of the user -->
+<p></p>
+<form>
+    <div>
+      <label for="fname">First name: </label>
+      <input id="fname" type="text" />
+    </div>
+    <div>
+      <label for="lname">Last name: </label>
+      <input id="lname" type="text" />
+    </div>
+    <div>
+      <input id="submit" type="submit" />
+    </div>
+</form>
+<p></p>
+
+<script>
+    const form = document.querySelector("form");
+    const fname = document.getElementById("fname");
+    const lname = document.getElementById("lname");
+    const para = document.querySelector("p");
+    const results = []
+
+    form.addEventListener("submit", (e) => {
+        if (fname.value === "" || lname.value === "") {
+            e.preventDefault();
+            para.textContent = "You need to fill in both names!";
+        } else {
+            e.preventDefault();
+            results.push({
+                firstName: fname.value,
+                lastName: lname.value
+            })            
+            displayResults()
+        }
+    });
+</script>
+
+<!--Todo 3.5-->
 
 <div>
     <h4>Todo 3.5</h4>
@@ -53,28 +97,60 @@
         // Todo 3.1 When the page has loaded, log "The page has loaded"
         // Relevant Link: https://developer.mozilla.org/en-US/docs/Web/API/Window/load_event
 
+        window.addEventListener("load", (event) => {
+            console.log("page is fully loaded");
+        });
+
         // Todo 3.3b Add an event handler for the button created in 2.3a. The event handler should log "From addEventListener" when the button is clicked
         // Relevant Link: https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events#using_addeventlistener see Using addEventListener() section
+
+        function eventHandle() {
+            console.log("From addEventListener")
+        }
+        document.getElementById("beventHandle").addEventListener("click", eventHandle)
 
         // Checkpoint 3.1 What is the difference between inline event handlers and addEventListener? When should you use one over the other?
         // Answer: 
 
-        const results = []
+        //Both types of event handling are quite similar in terms of their functionality. However the methodology varies from one after the other, with inline event handlers by its implied term, enables the button object to have the attribute or function built in, where it then requires to only call the function in order to execute an action. While the addEventListener is an external handler, where by taking the id of the button, then initializing the event in another line before creating the function. Inline event handlers uses lesser lines and provides a simplier implementation in order to define an objects functionality. As to addEventListener which has the flexibility of attaching multiple events and provides a cleaner structure between html and javascript.
+
         // Todo 3.3b When the user presses the submit form button, append the contents of the form to results. Then, display the content of results
         // Relevant Link: https://stackoverflow.com/questions/11563638/how-do-i-get-the-value-of-text-input-field-using-javascript
-        
+
+        function displayResults() {
+            para.textContent = "";
+            results.forEach((result, index) => {
+                para.textContent += `Result ${index + 1}: First Name - ${result.firstName}, Last Name - ${result.lastName}\n`;
+            });
+        }
+
         // Todo 3.5 add event listenders for the grandparent, parent, and child divs. When clicked, the grandparent, parent, and child should log "Grandparent", "Parent", and "Child" respectively
         // Relevant Link: https://youtu.be/XF1_MlZ5l6M?si=QrNjKXg-xXV6yghW @ 4:00 of the video
         const grandparent = document.querySelector(".grandparent")
         const parent = document.querySelector(".parent")
         const child = document.querySelector(".child")
+        grandparent.addEventListener("click", e => {
+            console.log("Grandparent")
+        })
+        parent.addEventListener("click", e=> {
+            console.log("Parent")
+        })
+        child.addEventListener("click", e => {
+            console.log("Child")
+        })
 
         // Checkpoint 3.2 What is event bubbling? How was it shown in Todo 3.5?
         // Answer: 
         
+        //From what I've observed, event bubbling has a target element and continous up on ancestor elements. Or essentially a compilation of nested elements that spans through two or more events which starts from the initial element, and continous on to the parent, then grandparent element. Based on the given example.
+
         // Bonus Todo 3.6 Change your code in the previous todo such that "grandparent" is displayed first
 
+        //By changing the grandparent to be displayed first, the order of element switches so that the red box overlaps the other two boxes, only displaying the grandparent element. On testing, the order of elements would consistently display as "grandparent" first, followed by "parent", then "child".
+
         // Bonus Todo 3.7 Change your code in the previous todo such that "parent" is never displayed
+
+        //Upon removing the parent element, the resulting action would only display grandparent. I believe the reason for this event would be by the mechanism of propagation. Since there's no parent element between "child" and "grandparent", the event does not propagate further.
 
     </script>
 </body>
